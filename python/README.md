@@ -2,7 +2,28 @@
 
 For exercise instructions see [top level README](../README.md)
 
-Suggestion: create a python virtual environment for this project. See the [documentation](https://docs.python.org/3/library/venv.html)
+## Installation
+
+### For Unix
+
+```bash
+apt-get install virtualenv git
+git clone https://github.com/LorenzoMarnat/GildedRose-Refactoring-Kata
+cd GildedRose-Refactoring-Kata/python
+virtualenv -p python3 venv
+. venv/bin/activate
+pip install .
+```
+
+### For Windows
+
+```bash
+git clone https://github.com/LorenzoMarnat/GildedRose-Refactoring-Kata
+cd GildedRose-Refactoring-Kata/python
+python3 -m venv venv
+. venv/Scripts/activate
+pip install .
+```
 
 ## Run the unit tests from the Command-Line
 
