@@ -2,7 +2,7 @@
 import unittest
 
 from gilded_rose import GildedRose
-from item import Item, LegendaryItem, RefinedItem, RefinedItemWithExpiration
+from item import Item, LegendaryItem, RefinedItem, RefinedItemWithExpiration, ConjuredItem
 
 
 class GildedRoseTest(unittest.TestCase):
@@ -52,6 +52,18 @@ class GildedRoseTest(unittest.TestCase):
         self.assertEqual(23, items[2].quality)
         self.assertEqual(-1, items[3].sell_in)
         self.assertEqual(0, items[3].quality)
+        
+    def test_conjured_item(self):
+        items = [ConjuredItem("Conjured Mana Cake", 3, 6),
+                 ConjuredItem("Conjured Mana Cake", 0, 6),
+                 ConjuredItem("Conjured Mana Cake", 0, 1)]
+        gilded_rose = GildedRose(items)
+        gilded_rose.update_quality()
+        self.assertEqual(2, items[0].sell_in)
+        self.assertEqual(4, items[0].quality)
+        self.assertEqual(-1, items[1].sell_in)
+        self.assertEqual(2, items[1].quality)
+        self.assertEqual(0, items[2].quality)
 
 
 if __name__ == '__main__':

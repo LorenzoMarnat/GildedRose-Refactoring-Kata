@@ -2,7 +2,7 @@
 from __future__ import print_function
 
 from gilded_rose import GildedRose
-from item import Item, LegendaryItem, RefinedItem, RefinedItemWithExpiration
+from item import Item, LegendaryItem, RefinedItem, RefinedItemWithExpiration, ConjuredItem
 
 
 def main():
@@ -16,7 +16,7 @@ def main():
         RefinedItemWithExpiration(name="Backstage passes to a TAFKAL80ETC concert", sell_in=15, quality=20),
         RefinedItemWithExpiration(name="Backstage passes to a TAFKAL80ETC concert", sell_in=10, quality=49),
         RefinedItemWithExpiration(name="Backstage passes to a TAFKAL80ETC concert", sell_in=5, quality=49),
-        Item(name="Conjured Mana Cake", sell_in=3, quality=6),  # <-- :O
+        ConjuredItem(name="Conjured Mana Cake", sell_in=3, quality=6),  # <-- :O
     ]
     days = 2
     import sys

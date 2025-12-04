@@ -45,3 +45,8 @@ class RefinedItemWithExpiration(RefinedItem):
         super().update_quality()
         if self.sell_in < 0:
             self.quality = 0  # Quality drops to 0 after expiration
+
+
+class ConjuredItem(Item):
+    # Conjured items degrade in quality twice as fast
+    quality_evolution = Item.quality_evolution * 2
