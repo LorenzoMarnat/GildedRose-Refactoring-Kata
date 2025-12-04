@@ -8,30 +8,39 @@ class Item:
         return "%s, %s, %s" % (self.name, self.sell_in, self.quality)
 
     def update_quality(self):
-        if self.name != "Aged Brie" and self.name != "Backstage passes to a TAFKAL80ETC concert":
-            if self.quality > 0:
-                if self.name != "Sulfuras, Hand of Ragnaros":
-                    self.quality = self.quality - 1
-        else:
-            if self.quality < 50:
-                self.quality = self.quality + 1
-                if self.name == "Backstage passes to a TAFKAL80ETC concert":
-                    if self.sell_in < 11:
-                        if self.quality < 50:
-                            self.quality = self.quality + 1
-                    if self.sell_in < 6:
-                        if self.quality < 50:
-                            self.quality = self.quality + 1
-        if self.name != "Sulfuras, Hand of Ragnaros":
-            self.sell_in = self.sell_in - 1
+        if self.quality > 0:
+            self.quality -= 1
+        self.sell_in -= 1
         if self.sell_in < 0:
-            if self.name != "Aged Brie":
-                if self.name != "Backstage passes to a TAFKAL80ETC concert":
-                    if self.quality > 0:
-                        if self.name != "Sulfuras, Hand of Ragnaros":
-                            self.quality = self.quality - 1
-                else:
-                    self.quality = self.quality - self.quality
-            else:
+            self.quality -= 1
+
+
+class LegendaryItem(Item):
+    def update_quality(self):
+        pass  # Legendary items do not change in quality or sell_in
+
+
+class RefinedItem(Item):
+    def update_quality(self):
+        # Refined items increase in quality over time
+        if self.quality < 50:
+            self.quality += 1
+        self.sell_in -= 1
+        if self.sell_in < 0 and self.quality < 50:
+            self.quality += 1
+
+
+class RefinedItemWithExpiration(RefinedItem):
+    def update_quality(self):
+        # Refined items increase in quality over time, but degrade after expiration
+        if self.quality < 50:
+            self.quality += 1
+            if self.sell_in < 11:
                 if self.quality < 50:
-                    self.quality = self.quality + 1
+                    self.quality += 1
+            if self.sell_in < 6:
+                if self.quality < 50:
+                    self.quality += 1
+        self.sell_in -= 1
+        if self.sell_in < 0:
+            self.quality = 0  # Quality drops to 0 after expiration

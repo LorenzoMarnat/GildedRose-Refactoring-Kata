@@ -2,7 +2,7 @@
 import unittest
 
 from gilded_rose import GildedRose
-from item import Item
+from item import Item, LegendaryItem, RefinedItem, RefinedItemWithExpiration
 
 
 class GildedRoseTest(unittest.TestCase):
@@ -18,24 +18,24 @@ class GildedRoseTest(unittest.TestCase):
         self.assertEqual(-1, items[1].sell_in)
 
     def test_aged_brie(self):
-        items = [Item("Aged Brie", 2, 0)]
+        items = [RefinedItem("Aged Brie", 2, 0)]
         gilded_rose = GildedRose(items)
         gilded_rose.update_quality()
         self.assertEqual(1, items[0].sell_in)
         self.assertEqual(1, items[0].quality)
 
     def test_sulfuras(self):
-        items = [Item("Sulfuras, Hand of Ragnaros", 0, 80)]
+        items = [LegendaryItem("Sulfuras, Hand of Ragnaros", 0, 80)]
         gilded_rose = GildedRose(items)
         gilded_rose.update_quality()
         self.assertEqual(0, items[0].sell_in)
         self.assertEqual(80, items[0].quality)
 
     def test_backstage_passes(self):
-        items = [Item("Backstage passes to a TAFKAL80ETC concert", 15, 20),
-                 Item("Backstage passes to a TAFKAL80ETC concert", 10, 20),
-                 Item("Backstage passes to a TAFKAL80ETC concert", 5, 20),
-                 Item("Backstage passes to a TAFKAL80ETC concert", 0, 20)]
+        items = [RefinedItemWithExpiration("Backstage passes to a TAFKAL80ETC concert", 15, 20),
+                 RefinedItemWithExpiration("Backstage passes to a TAFKAL80ETC concert", 10, 20),
+                 RefinedItemWithExpiration("Backstage passes to a TAFKAL80ETC concert", 5, 20),
+                 RefinedItemWithExpiration("Backstage passes to a TAFKAL80ETC concert", 0, 20)]
         gilded_rose = GildedRose(items)
         gilded_rose.update_quality()
         self.assertEqual(14, items[0].sell_in)
