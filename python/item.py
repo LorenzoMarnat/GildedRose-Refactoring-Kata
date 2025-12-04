@@ -1,4 +1,6 @@
 class Item:
+    quality_evolution = -1
+
     def __init__(self, name, sell_in, quality):
         self.name = name
         self.sell_in = sell_in
@@ -16,10 +18,10 @@ class Item:
         self._quality = max(0, min(50, value))
 
     def update_quality(self):
-        self.quality -= 1
+        self.quality += self.quality_evolution
         self.sell_in -= 1
         if self.sell_in < 0:
-            self.quality -= 1
+            self.quality += self.quality_evolution
 
 
 class LegendaryItem(Item):
@@ -32,22 +34,14 @@ class LegendaryItem(Item):
 
 
 class RefinedItem(Item):
-    def update_quality(self):
-        # Refined items increase in quality over time
-        self.quality += 1
-        self.sell_in -= 1
-        if self.sell_in < 0:
-            self.quality += 1
+    quality_evolution = 1  # Refined items increase in quality over time
 
 
 class RefinedItemWithExpiration(RefinedItem):
     def update_quality(self):
         # Refined items increase in quality over time, but degrade after expiration
-        self.quality += 1
-        if self.sell_in < 11:
-            self.quality += 1
-        if self.sell_in < 6:
-            self.quality += 1
-        self.sell_in -= 1
+        self.quality_evolution = 1 + \
+            int(self.sell_in <= 10) + int(self.sell_in <= 5)
+        super().update_quality()
         if self.sell_in < 0:
             self.quality = 0  # Quality drops to 0 after expiration
