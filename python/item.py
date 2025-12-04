@@ -7,15 +7,26 @@ class Item:
     def __repr__(self):
         return "%s, %s, %s" % (self.name, self.sell_in, self.quality)
 
+    @property
+    def quality(self):
+        return self._quality
+
+    @quality.setter
+    def quality(self, value):
+        self._quality = max(0, min(50, value))
+
     def update_quality(self):
-        if self.quality > 0:
-            self.quality -= 1
+        self.quality -= 1
         self.sell_in -= 1
         if self.sell_in < 0:
             self.quality -= 1
 
 
 class LegendaryItem(Item):
+    @Item.quality.setter
+    def quality(self, value):
+        self._quality = 80  # Legendary items always have quality of 80
+
     def update_quality(self):
         pass  # Legendary items do not change in quality or sell_in
 
@@ -23,24 +34,20 @@ class LegendaryItem(Item):
 class RefinedItem(Item):
     def update_quality(self):
         # Refined items increase in quality over time
-        if self.quality < 50:
-            self.quality += 1
+        self.quality += 1
         self.sell_in -= 1
-        if self.sell_in < 0 and self.quality < 50:
+        if self.sell_in < 0:
             self.quality += 1
 
 
 class RefinedItemWithExpiration(RefinedItem):
     def update_quality(self):
         # Refined items increase in quality over time, but degrade after expiration
-        if self.quality < 50:
+        self.quality += 1
+        if self.sell_in < 11:
             self.quality += 1
-            if self.sell_in < 11:
-                if self.quality < 50:
-                    self.quality += 1
-            if self.sell_in < 6:
-                if self.quality < 50:
-                    self.quality += 1
+        if self.sell_in < 6:
+            self.quality += 1
         self.sell_in -= 1
         if self.sell_in < 0:
             self.quality = 0  # Quality drops to 0 after expiration
